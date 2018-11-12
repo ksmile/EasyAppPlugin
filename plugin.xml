@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-easyapp" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>EasyAppPlugin</name>
+    <js-module name="EasyAppPlugin" src="www/EasyAppPlugin.js">
+        <clobbers target="cordova.plugins.EasyAppPlugin" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="EasyAppPlugin">
+                <param name="android-package" value="org.apache.cordova.easyapp.EasyAppPlugin" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+            <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="org.apache.cordova.easyapp.PermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        </config-file>
+        <framework src="src/android/EasyAppPlugin.gradle" custom="true" type="gradleReference"/>
+        <source-file src="src/android/EasyAppPlugin.java" target-dir="src/org/apache/cordova/easyapp" />
+        <source-file src="src/android/PermissionActivity.java" target-dir="src/org/apache/cordova/easyapp" />
+        <source-file src="src/android/PermissionListener.java" target-dir="src/org/apache/cordova/easyapp" />
+        <source-file src="src/android/PermissionsUtil.java" target-dir="src/org/apache/cordova/easyapp" />
+        <source-file src="src/android/VpnUtils.java" target-dir="src/org/apache/cordova/easyapp" />
+        <source-file src="libs/android/BugReportUtils.jar" target-dir="app/libs"/>
+        <source-file src="libs/android/SangforSDK.jar" target-dir="app/libs"/>
+        <source-file src="libs/android/armeabi/libauth_forward.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libhttps.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libpkcs12cert.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libsangfor_bugreport.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libsangfor_logger.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libsubstrate.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi/libsvpnservice.so" target-dir="app/libs/armeabi"/>
+        <source-file src="libs/android/armeabi-v7a/libauth_forward.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libhttps.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libpkcs12cert.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libsangfor_bugreport.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libsangfor_logger.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libsubstrate.so" target-dir="app/libs/armeabi-v7a"/>
+        <source-file src="libs/android/armeabi-v7a/libsvpnservice.so" target-dir="app/libs/armeabi-v7a"/>
+    </platform>
+</plugin>
