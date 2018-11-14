@@ -108,7 +108,7 @@ public class VpnUtils implements IVpnDelegate{
     }
 
     boolean getVpnStatus(){
-        return SangforAuth.getInstance().vpnQueryStatus()==VPN_STATUS_ONLINE;
+        return SangforAuth.getInstance().vpnQueryStatus() == VPN_STATUS_AUTH_OK;
     }
 
     private void returnResult(boolean result, String errInfo){
