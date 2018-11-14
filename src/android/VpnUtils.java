@@ -35,7 +35,7 @@ public class VpnUtils implements IVpnDelegate{
     private static final String TAG = "EasyVPN:";
     private static VpnUtils instance;
     private Context context;
-    private VpnLoginResultListener listener;
+    private VpnLoginResultListener listener, listener2;
     private boolean logout = false;
 
     // 认证所需信息
@@ -102,6 +102,15 @@ public class VpnUtils implements IVpnDelegate{
         }
     }
 
+    boolean doLogout(VpnLoginResultListener lst){
+        this.listener2 = lst;
+        return SangforAuth.getInstance().vpnLogout();
+    }
+
+    boolean getVpnStatus(){
+        return SangforAuth.getInstance().vpnQueryStatus()==VPN_STATUS_ONLINE;
+    }
+
     private void returnResult(boolean result, String errInfo){
         if(listener!=null){
             listener.onVpnLoginResult(result, errInfo);
@@ -165,9 +174,9 @@ public class VpnUtils implements IVpnDelegate{
                  */
                 if (authType == IVpnDelegate.AUTH_TYPE_NONE) {
 
-				/*
-				 * // session共享登陆--主APP保存：认证成功 保存TWFID（SessionId），供子APP使用 String twfid = sfAuth.getTwfid(); Log.i(TAG, "twfid = "+twfid);
-				 */
+                /*
+                 * // session共享登陆--主APP保存：认证成功 保存TWFID（SessionId），供子APP使用 String twfid = sfAuth.getTwfid(); Log.i(TAG, "twfid = "+twfid);
+                 */
                     Log.i(TAG, "welcome to sangfor sslvpn!");
                     displayToast("welcome to sangfor sslvpn!");
 
@@ -218,6 +227,9 @@ public class VpnUtils implements IVpnDelegate{
                  */
                 Log.i(TAG, "RESULT_VPN_AUTH_LOGOUT");
                 displayToast("RESULT_VPN_AUTH_LOGOUT");
+                if(listener2!=null){
+                    listener2.onVpnLoginResult(true, "VPN注销成功！");
+                }
                 break;
             case IVpnDelegate.RESULT_VPN_L3VPN_FAIL:
                 /**
@@ -355,10 +367,10 @@ public class VpnUtils implements IVpnDelegate{
         Log.d(TAG, "doVpnLogin authType " + authType);
         boolean ret = false;
         SangforAuth sfAuth = SangforAuth.getInstance();
-		/*
-		 * // session共享登陆：主APP封装时走原认证流程，子APP认证时使用TWFID（SessionId）认证方式 boolean isMainApp = true; //子APP,isMainApp = false; if(!isMainApp){ authType =
-		 * IVpnDelegate.AUTH_TYPE_TWFID; }
-		 */
+        /*
+         * // session共享登陆：主APP封装时走原认证流程，子APP认证时使用TWFID（SessionId）认证方式 boolean isMainApp = true; //子APP,isMainApp = false; if(!isMainApp){ authType =
+         * IVpnDelegate.AUTH_TYPE_TWFID; }
+         */
 
         switch (authType) {
             case IVpnDelegate.AUTH_TYPE_CERTIFICATE:

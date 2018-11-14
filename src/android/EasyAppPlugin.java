@@ -56,7 +56,28 @@ public class EasyAppPlugin extends CordovaPlugin {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // lognToVpn(vpnServe, un, pwd);
+                         logoutVpn(callbackContext);
+                    }
+                });
+
+                //下面三句为cordova插件回调页面的逻辑代码
+                PluginResult mPlugin = new PluginResult(PluginResult.Status.NO_RESULT);
+                mPlugin.setKeepCallback(true);
+
+                callbackContext.sendPluginResult(mPlugin);
+                return true;
+
+            } catch (Exception e) {
+                Toast.makeText(cordova.getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+                return false;
+            }
+        }else if (action.equals("VpnStatus")) {
+            try {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getVpnStatus(callbackContext);
                     }
                 });
 
@@ -107,5 +128,43 @@ public class EasyAppPlugin extends CordovaPlugin {
             e.printStackTrace();
         }
 
+    }
+
+    private void logoutVpn(CallbackContext callbackContext){
+        if(!VpnUtils.getInstance().doLogout(new VpnUtils.VpnLoginResultListener() {
+            @Override
+            public void onVpnLoginResult(boolean result, String errInfo) {
+                JSONObject paramEntity = new JSONObject();
+                try {
+                    paramEntity.put("errorInfo", "VPN注销成功！");
+                    paramEntity.put("success", true);
+                    // Toast.makeText(cordova.getActivity().getApplicationContext(), paramEntity.toString(), Toast.LENGTH_LONG).show();
+                    callbackContext.success(paramEntity);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        })){
+            JSONObject paramEntity = new JSONObject();
+            try {
+                paramEntity.put("errorInfo", "VPN注销失败！");
+                paramEntity.put("success", false);
+                // Toast.makeText(cordova.getActivity().getApplicationContext(), paramEntity.toString(), Toast.LENGTH_LONG).show();
+                callbackContext.success(paramEntity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void getVpnStatus(CallbackContext callbackContext){
+            try {
+                JSONObject paramEntity = new JSONObject();
+                boolean status = VpnUtils.getInstance().getVpnStatus();
+                paramEntity.put("errorInfo", status?"VPN已连接！":"VPN未连接！");
+                paramEntity.put("success", status);
+                callbackContext.success(paramEntity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 }
