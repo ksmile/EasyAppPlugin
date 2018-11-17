@@ -1,17 +1,22 @@
 {
   "name": "cordova-plugin-easyapp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "cordova": {
     "id": "cordova-plugin-easyapp",
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   },
+  "deprecated": false,
+  "description": "ionic cordova plugin add https://github.com/ksmile/EasyAppPlugin.git",
   "keywords": [
     "ecosystem:cordova",
-    "cordova-android"
+    "cordova-android",
+    "cordova-ios"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "name": "cordova-plugin-easyapp"
 }
