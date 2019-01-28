@@ -20,6 +20,7 @@ import com.sangfor.ssl.IVpnDelegate;
 import com.sangfor.ssl.SFException;
 import com.sangfor.ssl.SangforAuth;
 import com.sangfor.ssl.common.VpnCommon;
+import com.sangfor.ssl.l3vpn.service.VpnStatus;
 import com.sangfor.ssl.service.setting.SystemConfiguration;
 
 import java.net.InetAddress;
