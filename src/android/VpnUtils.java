@@ -66,12 +66,16 @@ public class VpnUtils implements IVpnDelegate{
     void init(Context context, String vpnServe, String username, String password){
         try {
             this.context = context;
-            VPN_IP = vpnServe;
             USER_NAME = username;
             USER_PASSWD = password;
 //            VPN_IP = context.getString(R.string.vpn_web_root);
 //            VPN_PORT = Integer.parseInt(context.getString(R.string.vpn_web_port));
             logout = false;
+            if(vpnServe.contains(":")){
+                VPN_IP = vpnServe.substring(0, vpnServe.indexOf(":"));
+                VPN_PORT = Integer.parseInt(vpnServe.substring(vpnServe.lastIndexOf(":")+1));
+            }else
+                VPN_IP = vpnServe;
         }catch (Exception ignored){}
     }
 
@@ -86,7 +90,7 @@ public class VpnUtils implements IVpnDelegate{
 
                 @Override
                 public void permissionDenied(@NonNull String[] permission) {
-
+                    returnResult(false, "权限初始化失败！");
                 }
             }, Manifest.permission.INTERNET, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.BLUETOOTH);
         }catch (Exception ignored){}
@@ -348,11 +352,13 @@ public class VpnUtils implements IVpnDelegate{
         if (TextUtils.isEmpty(strHost)) {
             Log.i(TAG, "vpn host error");
             displayToast("vpn host error");
+            returnResult(false, "vpn host error");
             return false;
         }
         long host = VpnCommon.ipToLong(strHost);
         if (sfAuth.vpnInit(host, VPN_PORT) == false) {
             Log.d(TAG, "vpn init fail, errno is " + sfAuth.vpnGeterr());
+            returnResult(false, "vpn init fail, errno is " + sfAuth.vpnGeterr());
             return false;
         }
 
@@ -436,6 +442,7 @@ public class VpnUtils implements IVpnDelegate{
             Log.i(TAG, "success to call login method");
         } else {
             Log.i(TAG, "fail to call login method");
+            returnResult(false, "fail to call login method");
         }
 
     }
