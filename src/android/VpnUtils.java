@@ -262,7 +262,7 @@ public class VpnUtils implements IVpnDelegate{
         }
     }
 
-    @Override
+    // @Override
     public void reloginCallback(int status, int result) {
         switch (status) {
             case IVpnDelegate.VPN_START_RELOGIN:
@@ -296,6 +296,10 @@ public class VpnUtils implements IVpnDelegate{
         }
     }
 
+    @Override
+    public void vpnStatusCallback(VpnStatus vpnStatus) {
+
+    }
 
     private boolean initVpnModule() {
         SangforAuth sfAuth = SangforAuth.getInstance();
